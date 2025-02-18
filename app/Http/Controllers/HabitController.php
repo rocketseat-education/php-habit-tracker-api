@@ -17,6 +17,13 @@ class HabitController extends Controller
         return HabitResource::collection(Habit::all());
 
     }
+
+    public function show(Habit $habit)
+    {
+
+        return HabitResource::make($habit);
+
+    }
     
     public function store(StoreHabitRequest $request)
     {
