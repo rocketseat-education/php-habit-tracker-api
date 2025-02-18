@@ -10,6 +10,13 @@ use App\Http\Resources\HabitResource;
 
 class HabitController extends Controller
 {
+
+    public function index()
+    {
+
+        return HabitResource::collection(Habit::all());
+
+    }
     
     public function store(StoreHabitRequest $request)
     {
