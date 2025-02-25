@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreHabitRequest;
+use App\Http\Requests\UpdateHabitRequest;
 
 use App\Http\Resources\HabitResource;
 
@@ -29,5 +30,16 @@ class HabitController extends Controller
         $habit = Habit::create(array_merge($data, ['user_id' => 1]));
 
         return HabitResource::make($habit);
+    }
+
+    public function update(UpdateHabitRequest $request, Habit $habit)
+    {
+
+        $data = $request->validated();
+
+        $habit->update($data);
+
+        return HabitResource::make($habit);
+
     }
 }

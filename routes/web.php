@@ -14,4 +14,6 @@ Route::prefix('api')->name('api.')->group(function () {
     Route::get('/habits/{habit:uuid}', [HabitController::class, 'show'])->name('habits.show');
 
     Route::post('/habits', [HabitController::class, 'store'])->name('habits.store');
+
+    Route::put('/habits/{habit:uuid}', [HabitController::class, 'update'])->name('habits.update');
 });
