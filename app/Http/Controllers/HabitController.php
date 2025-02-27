@@ -35,23 +35,19 @@ class HabitController extends Controller
 
     public function update(UpdateHabitRequest $request, Habit $habit)
     {
-
         $data = $request->validated();
 
         $habit->update($data);
 
         return HabitResource::make($habit);
-
     }
 
     public function destroy(Habit $habit)
     {
-
         HabitLog::whereHabitId($habit->id)->delete();
 
         $habit->delete();
 
         return response()->noContent();
-
     }
 }
