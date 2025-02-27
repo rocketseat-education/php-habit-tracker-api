@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Http\Controllers\HabitController;
+use App\Http\Controllers\HabitLogController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,6 @@ Route::prefix('api')->name('api.')->group(function () {
     // Route::delete('/habits/{habit:uuid}', [HabitController::class, 'destroy'])->name('habits.destroy');
 
     Route::apiResource('habits', HabitController::class)->scoped(['habit' => 'uuid']);
+
+    Route::get('/habits/{habit:uuid}/logs', [HabitLogController::class, 'index'])->name('habits.logs.index');
 });

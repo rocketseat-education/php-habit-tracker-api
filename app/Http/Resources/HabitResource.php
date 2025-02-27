@@ -27,6 +27,7 @@ class HabitResource extends JsonResource
             'links'  => [
 
                 'self' => route('api.habits.show', $this),
+                'logs' => route('api.habits.logs.index', $this)
 
             ],
         ];
