@@ -18,7 +18,21 @@ class HabitLogController extends Controller
     public function index(Habit $habit)
     {
         
-        return HabitLogResource::collection($habit->logs()->paginate());
+        return HabitLogResource::collection(
+            $habit->logs()
+                ->with('habit')
+                ->paginate()
+        );
+
+    }
+
+    /**
+     * Show one resource
+     */
+    public function show(Habit $habit, HabitLog $log)
+    {
+
+        return HabitLogResource::make($log);
 
     }
 
@@ -37,26 +51,14 @@ class HabitLogController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(HabitLog $habitLog)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, HabitLog $habitLog)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HabitLog $habitLog)
+    public function destroy(Habit $habit, HabitLog $log)
     {
-        //
+
+        $log->delete();
+
+        return response()->noContent();
+
     }
 }
