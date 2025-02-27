@@ -17,10 +17,6 @@ class HabitController extends Controller
     public function index()
     {
 
-        ds()->clear();
-
-        ds()->queriesOn();
-
         return HabitResource::collection(
 
             Habit::query()
@@ -32,7 +28,7 @@ class HabitController extends Controller
                     str(request()->string('with', ''))->contains('logs'),
                     fn ($query) => $query->with('logs')
                 )
-            ->get()
+            ->paginate()
 
         );
 
