@@ -17,15 +17,19 @@ class HabitController extends Controller
     public function index()
     {
 
+        request()->validate([
+            'with' => ['string', 'nullable', 'regex:/\b(?:logs|user)(?:.*\b(?:logs|user))?/i']
+        ]);
+
         return HabitResource::collection(
 
             Habit::query()
                 ->when(
-                    str(request()->string('with', ''))->contains('user'), 
+                    request()->string('with', '')->contains('user'), 
                     fn ($query) => $query->with('user') 
                 )
                 ->when(
-                    str(request()->string('with', ''))->contains('logs'),
+                   request()->string('with', '')->contains('logs'),
                     fn ($query) => $query->with('logs')
                 )
             ->paginate()
@@ -36,7 +40,18 @@ class HabitController extends Controller
 
     public function show(Habit $habit)
     {
-        return HabitResource::make($habit);
+
+        request()->validate([
+            'with' => ['string', 'nullable', 'regex:/\b(?:logs|user)(?:.*\b(?:logs|user))?/i']
+        ]);
+
+        $load = request()->string('with')->explode(',')->filter(fn ($w) => strlen($w) > 0)->toArray();
+
+        return HabitResource::make(
+
+            $habit->load($load)
+
+        );
     }
 
     public function store(StoreHabitRequest $request)
