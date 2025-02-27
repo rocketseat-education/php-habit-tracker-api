@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use App\Models\Traits\HasUuid;
+
 class Habit extends Model
 {
     /** @use HasFactory<\Database\Factories\HabitFactory> */
     use HasFactory;
+    use HasUUid;
 
     public function logs(): HasMany
     {

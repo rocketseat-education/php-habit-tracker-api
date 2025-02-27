@@ -29,8 +29,6 @@ class HabitLogController extends Controller
     {
         
         $log = $habit->logs()->updateOrCreate([
-            'uuid' => $request->string('uuid'),
-            'habit_id' => $habit->id,
             'completed_at' => $request->date('completed_at')
         ]);
 
