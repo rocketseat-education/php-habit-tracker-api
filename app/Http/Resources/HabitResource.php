@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Http\Resources\HabitLogResource;
+use App\Http\Resources\UserResource;
 
 class HabitResource extends JsonResource
 {
@@ -21,7 +22,8 @@ class HabitResource extends JsonResource
         return [
             'uuid'  => $this->uuid,
             'title' => $this->title,
-            'logs'  => HabitLogResource::collection($this->logs),
+            'user' => UserResource::make($this->whenLoaded('user')),
+            'logs'  => HabitLogResource::collection($this->whenLoaded('logs')),
             'meta'  => [
 
                 'link' => route('api.habits.show', $this),
