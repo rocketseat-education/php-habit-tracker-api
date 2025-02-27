@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Resources\HabitLogResource;
 
+use App\Http\Requests\StoreHabitLogRequest;
+
 class HabitLogController extends Controller
 {
     /**
@@ -23,9 +25,17 @@ class HabitLogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreHabitLogRequest $request, Habit $habit)
     {
-        //
+        
+        $log = $habit->logs()->updateOrCreate([
+            'uuid' => $request->string('uuid'),
+            'habit_id' => $habit->id,
+            'completed_at' => $request->date('completed_at')
+        ]);
+
+        return HabitLogResource::make($log);
+
     }
 
     /**
