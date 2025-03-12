@@ -12,12 +12,14 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Habit;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use Notifiable;
+    use HasApiTokens;
 
     /**
      * The attributes that should be hidden for serialization.
