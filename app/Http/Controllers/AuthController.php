@@ -2,15 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\RegisterRequest;
+
+use Illuminate\Support\Facades\Hash;
+
+use App\Models\User;
 
 class AuthController extends Controller
 {
 
-    public function register(Request $r) 
+    public function register(RegisterRequest $r) 
     {
 
-        ds(request()->all())->die();
+        $user = User::create([
+
+            'name' => $r->string('name'),
+            'email' => $r->string('email'),
+            'password' => $r->string('password')
+
+        ]);
+
+        return response()->json([
+            'token' => $user->createToken('auth_token')->plainTextToken
+        ]);
 
     }
 

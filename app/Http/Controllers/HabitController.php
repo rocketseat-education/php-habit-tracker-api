@@ -17,14 +17,6 @@ class HabitController extends Controller
     public function index()
     {
 
-        $token = request()->bearerToken();
-
-        abort_unless($token == '0987', 403);
-
-        ds()->clear();
-
-        ds($token)->die();
-
         request()->validate([
             'with' => ['string', 'nullable', 'regex:/\b(?:logs|user)(?:.*\b(?:logs|user))?/i']
         ]);
