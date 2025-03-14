@@ -11,10 +11,24 @@ use App\Http\Resources\HabitResource;
 
 use App\Models\Habit;
 use App\Models\HabitLog;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 
-class HabitController extends Controller
+class HabitController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+
+        return [
+
+            new Middleware("can:own,habit", except: ['index', 'store'])
+
+        ];
+
+    }
+
     public function index()
     {
 
