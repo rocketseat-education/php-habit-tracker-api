@@ -11,6 +11,7 @@ use App\Http\Resources\HabitResource;
 
 use App\Models\Habit;
 use App\Models\HabitLog;
+use Illuminate\Support\Facades\Auth;
 
 class HabitController extends Controller
 {
@@ -24,6 +25,7 @@ class HabitController extends Controller
         return HabitResource::collection(
 
             Habit::query()
+                ->where('user_id', Auth::id())
                 ->when(
                     request()->string('with', '')->contains('user'), 
                     fn ($query) => $query->with('user') 
@@ -57,7 +59,7 @@ class HabitController extends Controller
     public function store(StoreHabitRequest $request)
     {
 
-        $habit = Habit::create(array_merge($request->validated(), ['user_id' => 1]));
+        $habit = Auth::user()->habits()->create($request->validated());
 
         return HabitResource::make($habit);
     }
