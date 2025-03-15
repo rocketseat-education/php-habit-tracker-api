@@ -57,7 +57,7 @@ class WeeklyCommand extends Command
         $habits = collect(DB::select($query, [$user->id]))
             ->map(function ($item) {
 
-                return [
+                return (object) [
                     'habit_id' => $item->habit_id,
                     'habit_name' => $item->habit_name,
                     'log_date' => Carbon::make($item->log_date),

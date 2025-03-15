@@ -3,9 +3,11 @@
 
 The body of your message.
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+<x-mail::table>
+
+    {{ $map }}
+
+</x-mail::table>
 
 Thanks,<br>
 {{ config('app.name') }}
