@@ -51,15 +51,19 @@ class WeeklyReport extends Notification
     public function getMap():string
     {
 
-        $habitNames = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => "$name | ")->implode(' ');
+        $habitNames = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => str($name)->limit(20) . "| ")->implode(' ');
 
-        $splitter = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => ":------------: | ")->implode(' ');
+        $splitter = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => "------------: | ")->implode(' ');
 
         $days = $this->habits->groupBy('log_date')->map(function($habit) {
 
             $day = $habit->first()->log_date->format('D j');
 
-            $logs = $habit->map(fn ($item) => ($item->completed ? '✓' : 'X') . ' |')->implode(' ');
+            $logs = $habit->map(fn ($item) => ($item->completed ? '✓' : 'X') . ' | ')->implode(' ');
+
+            ds()->clear();
+
+            ds($logs);
 
             return <<<HTML
             
@@ -73,6 +77,7 @@ class WeeklyReport extends Notification
 
         |            | $habitNames
         | :--------: | $splitter
+
         $days
 
         HTML;
