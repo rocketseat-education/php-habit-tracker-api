@@ -44,43 +44,27 @@ class WeeklyReport extends Notification
 
 
     /**
-     * Generate the markdown representation of the map
-     * 
+     * Generate the markdown representation of the map.
+     *
      * @return string
      */
-    public function getMap():string
+    public function getMap(): string
     {
-
-        $habitNames = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => str($name)->limit(20) . "| ")->implode(' ');
-
-        $splitter = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => "------------: | ")->implode(' ');
-
-        $days = $this->habits->groupBy('log_date')->map(function($habit) {
-
-            $day = $habit->first()->log_date->format('D j');
-
-            $logs = $habit->map(fn ($item) => ($item->completed ? '✓' : 'X') . ' | ')->implode(' ');
-
-            ds()->clear();
-
-            ds($logs);
+        $habitNames = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => str($name)->limit(20) . " |")->implode(' ');
+        $splitter   = $this->habits->groupBy('habit_name')->keys()->map(fn ($name) => " -----------: |")->implode(' ');
+        $days       = $this->habits->groupBy('log_date')->map(function ($habit) {
+            $day  = $habit->first()->log_date->format('D j');
+            $logs = $habit->map(fn ($item) => ($item->completed ? '✓' : 'X') . ' |')->implode(' ');
 
             return <<<HTML
-            
             | $day | $logs
-            
             HTML;
-
         })->implode("\n");
 
         return <<<HTML
-
         |            | $habitNames
-        | :--------: | $splitter
-
+        | -------- | $splitter
         $days
-
         HTML;
-
     }
 }
